@@ -15,19 +15,19 @@ fs.readdir("./commands/", (err, file) => {
 
   if (jsfile.length < 1) {
 
-      console.log("‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️");
-      console.log("❌ Couldnt find any commands. ❌");
-      console.log("‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️");
-      return;
+    console.log("‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️");
+    console.log("❌ Couldnt find any commands. ❌");
+    console.log("‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️‼️");
+    return;
   }
 
   jsfile.forEach((f, i) => {
 
-      let props = require(`./commands/${f}`);
+    let props = require(`./commands/${f}`);
 
-      console.log(`(Command) | ✅ -- ${f}`);
+    console.log(`(Command) | ✅ -- ${f}`);
 
-      bot.commands.set(props.help.name, props);
+    bot.commands.set(props.help.name, props);
 
   });
 
@@ -57,35 +57,35 @@ fs.readdir("./listeners/", (err, file) => {
             parameter: param,
             Discord: Discord,
             bot: bot
-          }
+          };
           
           command(utils);
 
-        })
+        });
 
-      })
+      });
 
     });
 
-  })
+  });
 
-})
+});
 
 
 
-const PREFIX = '-';
-const version = '1.1.1';
+const PREFIX = "-";
+const version = "1.1.1";
 
 bot.on("ready", () => {
-  console.log("==================================")
+  console.log("==================================");
   console.log(`${bot.user.username} is online!`);
-  console.log("==================================")
-  console.log(`Bot\'s Information`)
-  console.log("----------------------------------")
-  console.log(`Bot\'s Name: ${bot.user.username}`)
-  console.log(`Bot\'s Discord Tag: ${bot.user.tag}`)
-  console.log(`Bot\'s Discord ID: ${bot.user.id}`)
-  console.log("==================================")
+  console.log("==================================");
+  console.log("Bot\'s Information");
+  console.log("----------------------------------");
+  console.log(`Bot\'s Name: ${bot.user.username}`);
+  console.log(`Bot\'s Discord Tag: ${bot.user.tag}`);
+  console.log(`Bot\'s Discord ID: ${bot.user.id}`);
+  console.log("==================================");
 
   bot.user.setActivity(PREFIX + "help");
 
@@ -97,16 +97,16 @@ bot.on("message", async (message) => {
 
   if (!message.content.startsWith(PREFIX)) {
     return;
-  };
-  commandfile = bot.commands.get(cmd.slice(PREFIX.length).toLowerCase());
+  }
+  const commandfile = bot.commands.get(cmd.slice(PREFIX.length).toLowerCase());
   if (commandfile) {
     var utils = {
       Discord: Discord,
       bot: bot,
       message: message
-    }
+    };
     commandfile.run(utils);
-  };
+  }
   const arg = message.content.substring(PREFIX.length).split(" ");
 });
 
@@ -115,6 +115,6 @@ bot.on("error", err => {
 
   console.log(err);
 
-})
+});
 
 bot.login(tokenConfig.token);

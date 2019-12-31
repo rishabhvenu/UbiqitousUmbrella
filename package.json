@@ -1,0 +1,24 @@
+{
+  "name": "ubiqitousumbrella",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "run": "node ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OriginalAse/UbiqitousUmbrella.git"
+  },
+  "author": "originalase",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OriginalAse/UbiqitousUmbrella/issues"
+  },
+  "homepage": "https://github.com/OriginalAse/UbiqitousUmbrella#readme"
+}
