@@ -49,7 +49,9 @@ module.exports.run = async (utils) => {
     }
 
     setTimeout(function() {
-      msg.delete();
+      if (!msg.deleted) {
+        msg.delete();
+      }
     }, 300000);
 
   }

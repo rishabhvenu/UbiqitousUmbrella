@@ -70,6 +70,7 @@ function help(utils) {
                 } else if (msg.d.emoji.name == "❌") {
 
                   message.delete();
+                  return;
 
                 }
 
