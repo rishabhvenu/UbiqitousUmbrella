@@ -8,13 +8,13 @@ function help(utils) {
 
   }
 
-  const embeds = require("./../../embeds.js");
+  var embeds = utils.embeds;
 
   if (msg.t == "MESSAGE_REACTION_ADD") {
 
     var bot = utils.bot;
 
-    var helpChannel = bot.channels.find(x => x.id === msg.d.channel_id);
+    var helpChannel = bot.channels.get(msg.d.channel_id);
 
     helpChannel.fetchMessage(msg.d.message_id).then(message => {
 
@@ -31,31 +31,31 @@ function help(utils) {
 
                 if (member.hasPermission("MANAGE_MESSAGES")) {
 
-                  message.edit(embeds.optionMenu.setFooter(member.id));
+                  message.edit(embeds.optionMenu(member.id)).catch(() => {});
 
                 } else {
 
-                  message.edit(embeds.optOutPermMenu.setFooter(member.id));
+                  message.edit(embeds.optOutPermMenu(member.id)).catch(() => {});
 
                 }
 
               } else if (msg.d.emoji.name == "🎉") {
 
-                message.edit(embeds.embed1.setFooter(member.id));
+                message.edit(embeds.embed1(member.id)).catch(() => {});
 
               } else if (msg.d.emoji.name == "📜") {
 
-                message.edit(embeds.embed2.setFooter(member.id));
+                message.edit(embeds.embed2(member.id)).catch(() => {});
 
               } else if (msg.d.emoji.name == "🎫") {
 
                 if (member.hasPermission("MANAGE_MESSAGES")) {
 
-                  message.edit(embeds.embed3.setFooter(member.id));
+                  message.edit(embeds.embed3(member.id)).catch(() => {});
 
                 } else {
 
-                  message.edit(embeds.embed3OutPerm.setFooter(member.id));
+                  message.edit(embeds.embed3OutPerm(member.id)).catch(() => {});
 
                 }
 
@@ -63,20 +63,20 @@ function help(utils) {
 
                 if (member.hasPermission("MANAGE_MESSAGES")) {
 
-                  message.edit(embeds.embed4.setFooter(member.id));
+                  message.edit(embeds.embed4(member.id)).catch(() => {});
 
                 }
 
               } else if (msg.d.emoji.name == "❌") {
 
-                message.delete();
+                message.delete().catch(() => {});
                 return;
 
               }
 
               message.reactions.forEach(reaction => {
 
-                reaction.remove(user);
+                reaction.remove(user).catch(() => {});
 
               });
 
@@ -88,7 +88,7 @@ function help(utils) {
 
           message.reactions.forEach(reaction => {
 
-            reaction.remove(msg.d.user_id);
+            reaction.remove(msg.d.user_id).catch(() => {});
 
           });
 

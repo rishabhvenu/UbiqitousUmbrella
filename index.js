@@ -1,8 +1,11 @@
 const Discord = require("discord.js");
 const fs = require("fs");
+const StringSimilarity = require("string-similarity");
+
 const bot = new Discord.Client();
 
 const tokenConfig = require("./botConfig.js");
+const embeds = require("./embeds.js");
 
 bot.commands = new Discord.Collection();
 
@@ -21,7 +24,7 @@ fs.readdir("./commands/", (err, file) => {
     return;
   }
 
-  jsfile.forEach((f, i) => {
+  jsfile.forEach(f => {
 
     let props = require(`./commands/${f}`);
 
@@ -39,7 +42,7 @@ fs.readdir("./listeners/", (err, file) => {
 
   let folders = file.filter(f => fs.lstatSync(`./listeners/${f}`).isDirectory());
 
-  folders.forEach((listener, i) => {
+  folders.forEach(listener => {
 
     bot.on(listener, param => {
 
@@ -49,16 +52,17 @@ fs.readdir("./listeners/", (err, file) => {
 
         let jsfile = file2.filter(f => f.split(".").pop() === "js");
 
-        jsfile.forEach((f, index) => {
+        jsfile.forEach(f => {
 
           var command = require(`./listeners/${listener}/${f}`);
 
           var utils = {
             parameter: param,
             Discord: Discord,
-            bot: bot
+            bot: bot,
+            embeds: embeds
           };
-          
+
           command(utils);
 
         });
@@ -74,17 +78,16 @@ fs.readdir("./listeners/", (err, file) => {
 
 
 const PREFIX = "-";
-const version = "1.1.1";
 
 bot.on("ready", () => {
   console.log("==================================");
   console.log(`${bot.user.username} is online!`);
   console.log("==================================");
-  console.log("Bot\'s Information");
+  console.log("Bot's Information");
   console.log("----------------------------------");
-  console.log(`Bot\'s Name: ${bot.user.username}`);
-  console.log(`Bot\'s Discord Tag: ${bot.user.tag}`);
-  console.log(`Bot\'s Discord ID: ${bot.user.id}`);
+  console.log(`Bot's Name: ${bot.user.username}`);
+  console.log(`Bot's Discord Tag: ${bot.user.tag}`);
+  console.log(`Bot's Discord ID: ${bot.user.id}`);
   console.log("==================================");
 
   bot.user.setActivity(PREFIX + "help");
@@ -94,6 +97,7 @@ bot.on("ready", () => {
 bot.on("message", async (message) => {
   let messageArray = message.content.split(" ");
   let cmd = messageArray[0].toLowerCase();
+  let args = messageArray.slice(1);
 
   if (!message.content.startsWith(PREFIX)) {
     return;
@@ -103,11 +107,13 @@ bot.on("message", async (message) => {
     var utils = {
       Discord: Discord,
       bot: bot,
-      message: message
+      message: message,
+      embeds: embeds,
+      args: args,
+      StringSimilarity: StringSimilarity
     };
     commandfile.run(utils);
   }
-  const arg = message.content.substring(PREFIX.length).split(" ");
 });
 
 
