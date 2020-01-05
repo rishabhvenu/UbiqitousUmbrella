@@ -1,6 +1,11 @@
 const Discord = require("discord.js");
 const fs = require("fs");
 const StringSimilarity = require("string-similarity");
+const Ytdl = require("ytdl-core");
+const Ytsearch = require("yt-search");
+const Spotify = require("spotify-web");
+
+const queue = new Map();
 
 const bot = new Discord.Client();
 
@@ -30,7 +35,19 @@ fs.readdir("./commands/", (err, file) => {
 
     console.log(`(Command) | ✅ -- ${f}`);
 
-    bot.commands.set(props.help.name, props);
+    if (props.help.name instanceof Array) {
+
+      for (var alias in props.help.name) {
+
+        bot.commands.set(props.help.name[alias], props);
+
+      }
+
+    } else {
+
+      bot.commands.set(props.help.name, props);
+
+    }
 
   });
 
@@ -99,6 +116,8 @@ bot.on("message", async (message) => {
   let cmd = messageArray[0].toLowerCase();
   let args = messageArray.slice(1);
 
+  let serverQueue = queue.get(message.guild.id);
+
   if (!message.content.startsWith(PREFIX)) {
     return;
   }
@@ -110,7 +129,19 @@ bot.on("message", async (message) => {
       message: message,
       embeds: embeds,
       args: args,
-      StringSimilarity: StringSimilarity
+      StringSimilarity: StringSimilarity,
+      serverQueue: serverQueue,
+      queue: queue,
+      Ytdl: Ytdl,
+      Ytsearch: Ytsearch,
+      Spotify: Spotify,
+      updateQueue: servQueue => {
+
+        utils.serverQueue = servQueue;
+
+        utils.queue.set(message.guild.id, servQueue);
+
+      }
     };
     commandfile.run(utils);
   }

@@ -188,11 +188,21 @@ var Embeds = {
 
   },
 
+  noremovepermticket: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You do not have permission to remove a user from this ticket! You must be the owner of the ticket to remove a user from it!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
   wrongaddusageticket: tag => {
 
     return new Discord.RichEmbed()
       .setColor("DARK_RED")
-      .setDescription("You must specify a user to add to this ticket! Usage: -tadd `@user`")
+      .setDescription("You must specify a user to add to this ticket! **Usage:** `-tadd @user`")
       .setTimestamp()
       .setFooter(tag);
 
@@ -212,7 +222,7 @@ var Embeds = {
 
     return new Discord.RichEmbed()
       .setColor("DARK_RED")
-      .setDescription("You must specify a user to remove from this ticket! Usage: -tremove `@user`")
+      .setDescription("You must specify a user to remove from this ticket! **Usage:** `-tremove @user`")
       .setTimestamp()
       .setFooter(tag);
 
@@ -256,7 +266,211 @@ var Embeds = {
       .setTimestamp()
       .setFooter(tag);
 
+  },
+
+  //music stuff
+
+  notinvoicechannelmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You must be in a voice channel to use music commands!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  nopermtoconmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("I do not have permission to connect to your voice channel! Contact an administrator")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  wrongplayusagemusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You must specify a song to play! **Usage:** `-play song`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  errorplaymusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("An error occured while trying to play music! Contact an administrator")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  nowplayingmusic: (tag, songName) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`Playing \`${songName}\` now! :musical_note:`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  addqueuemusic: (tag, songName) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`Added \`${songName}\` to queue! :musical_note:`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  noresultsmusic: (tag, songName) => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription(`I couldn't find any results for \`${songName}\`!`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  notinsamechannelmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You must be in the same channel as me to use music commands!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  nosongsqueuedmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You don't have any songs queued up! You can add a song to the queue by doing -play `song`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  alreadyvoteskip: (tag, songName, skipCount, skipCap) => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription(`You have already voted to skip this \`${songName}\`! (${skipCount}/${skipCap})`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successvoteskip: (tag, songName, skipCount, skipCap) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`\`${songName}\` has been successfully skipped! (${skipCount}/${skipCap})`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successaddvoteskip: (tag, songName, skipCount, skipCap) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`You have voted to skip \`${songName}\`! (${skipCount}/${skipCap})`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  noforceskippermmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You do not have permission to force skip songs! You must be an administrator to force skip songs!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successvotestop: (tag,  stopCount, stopCap) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`Song playing has been successfully stopped! (${stopCount}/${stopCap})`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  alreadyvotestop: (tag, stopCount, stopCap) => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription(`You have already voted to stop playing music! (${stopCount}/${stopCap})`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successaddvotestop: (tag, stopCount, stopCap) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`You have voted to stop playing music! (${stopCount}/${stopCap})`)
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  noforcestoppermmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You do not have permission to force stop songs! You must be an administrator to force stop songs!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  viewqueuemusic: (tag, songTitle, songUrl, userName, serverQueue) => {
+
+    var returnEmbed = new Discord.RichEmbed()
+      .setColor("LIGHT_BLUE")
+      .setTitle("Music Queue")
+      .addField("Now Playing", `[${songTitle}](${songUrl})\n**Requested by:** \`${userName}\``)
+      .setTimestamp()
+      .setFooter(tag);
+
+    if (serverQueue.songs.length > 1) {
+
+      var upNexts = serverQueue.songs.shift();
+
+      var upNextField = "";
+
+      for (var song in upNexts) {
+
+        console.log(song);
+        upNextField += `[${upNexts[song].title}](${upNexts[song].url})\n**Requested by:** \`${upNexts[song].user.tag}\`\n`;
+
+      }
+
+      returnEmbed.addField("Queue", upNextField);
+
+    }
+
+
+    return returnEmbed;
+
   }
+
 
 };
 
