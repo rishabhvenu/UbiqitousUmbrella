@@ -4,6 +4,7 @@ const StringSimilarity = require("string-similarity");
 const Ytdl = require("ytdl-core");
 const Ytsearch = require("yt-search");
 const Spotify = require("spotify-web");
+const MySQL = require("./mysql.js");
 
 const queue = new Map();
 
@@ -11,6 +12,7 @@ const bot = new Discord.Client();
 
 const tokenConfig = require("./botConfig.js");
 const embeds = require("./embeds.js");
+const Utils = require("./utils.js");
 
 bot.commands = new Discord.Collection();
 
@@ -29,15 +31,17 @@ fs.readdir("./commands/", (err, file) => {
     return;
   }
 
+  let props;
+
   jsfile.forEach(f => {
 
-    let props = require(`./commands/${f}`);
+    props = require(`./commands/${f}`);
 
     console.log(`(Command) | ✅ -- ${f}`);
 
     if (props.help.name instanceof Array) {
 
-      for (var alias in props.help.name) {
+      for (let alias in props.help.name) {
 
         bot.commands.set(props.help.name[alias], props);
 
@@ -69,15 +73,18 @@ fs.readdir("./listeners/", (err, file) => {
 
         let jsfile = file2.filter(f => f.split(".").pop() === "js");
 
+        let command;
+
         jsfile.forEach(f => {
 
-          var command = require(`./listeners/${listener}/${f}`);
+          command = require(`./listeners/${listener}/${f}`);
 
-          var utils = {
+          let utils = {
             parameter: param,
             Discord: Discord,
             bot: bot,
-            embeds: embeds
+            embeds: embeds,
+            MySQL: MySQL
           };
 
           command(utils);
@@ -123,7 +130,7 @@ bot.on("message", async (message) => {
   }
   const commandfile = bot.commands.get(cmd.slice(PREFIX.length).toLowerCase());
   if (commandfile) {
-    var utils = {
+    let utils = {
       Discord: Discord,
       bot: bot,
       message: message,
@@ -135,14 +142,11 @@ bot.on("message", async (message) => {
       Ytdl: Ytdl,
       Ytsearch: Ytsearch,
       Spotify: Spotify,
-      updateQueue: servQueue => {
-
-        utils.serverQueue = servQueue;
-
-        utils.queue.set(message.guild.id, servQueue);
-
-      }
+      MySQL: MySQL,
+      updateQueue: Utils.updateQueue,
+      toPromise: Utils.toPromise
     };
+    Utils.init(utils, message);
     commandfile.run(utils);
   }
 });

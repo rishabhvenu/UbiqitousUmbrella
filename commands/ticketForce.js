@@ -1,9 +1,9 @@
 module.exports.run = async utils => {
 
-  var message = utils.message;
-  var embeds = utils.embeds;
+  let message = utils.message;
+  let embeds = utils.embeds;
 
-  var channelNameArray =  message.channel.name.split("-");
+  let channelNameArray =  message.channel.name.split("-");
 
   message.delete();
 
@@ -13,7 +13,7 @@ module.exports.run = async utils => {
 
   message.channel.delete();
 
-  var user = utils.bot.users.get(channelNameArray[0]);
+  let user = utils.bot.users.get(channelNameArray[0]);
 
   user.send(embeds.forcecloseticket(user.tag));
 

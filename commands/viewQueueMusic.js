@@ -1,11 +1,11 @@
 module.exports.run = async utils => {
 
-  var message = utils.message;
-  var bot = utils.bot;
-  var embeds = utils.embeds;
-  var serverQueue = utils.serverQueue;
+  let message = utils.message;
+  let bot = utils.bot;
+  let embeds = utils.embeds;
+  let serverQueue = utils.serverQueue;
 
-  var voiceChannel = message.member.voiceChannel;
+  let voiceChannel = message.member.voiceChannel;
 
   message.delete();
 
@@ -15,7 +15,7 @@ module.exports.run = async utils => {
 
   if (!serverQueue || serverQueue.songs.length < 1) message.channel.send(embeds.nosongsqueuedmusic(message.author.tag));
 
-  var songData = serverQueue.songs[0];
+  let songData = serverQueue.songs[0];
 
   message.channel.send(embeds.viewqueuemusic(message.author.tag, songData.title, songData.url, songData.user.tag, serverQueue));
 

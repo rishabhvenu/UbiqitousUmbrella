@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 
-var Embeds = {
+let Embeds = {
 
   // Help Embeds
   optionMenu: id => {
@@ -21,7 +21,7 @@ var Embeds = {
 
   optOutPermMenu: id => {
 
-    return Embeds.optionMenu(id).setDescription("⬅️ - Return back to this menu. \n" +
+    return this.optionMenu(id).setDescription("⬅️ - Return back to this menu. \n" +
                                 "🎉 - **Fun Commands** \n" +
                                 "📜 - **Main Commands** \n" +
                                 "🎫 - **Ticket Commands** \n" +
@@ -74,7 +74,7 @@ var Embeds = {
 
   embed3: id => {
 
-    return Embeds.embed3OutPerm(id).addField("**tforce <Alias: tf>**", "tforce -- Force close a ticket.");
+    return this.embed3OutPerm(id).addField("**tforce <Alias: tf>**", "tforce -- Force close a ticket.");
 
   },
 
@@ -208,11 +208,12 @@ var Embeds = {
 
   },
 
-  successuseraddticket: (tag, friendid, friendname) => {
+  successuseraddticket: (tag, friendid, friendname, avatar) => {
 
     return new Discord.RichEmbed()
       .setColor("GREEN")
       .setDescription(`You have successfully added <@${friendid}> to this ticket! To remove <@${friendid}>, do \`-tremove @${friendname}\``)
+      .setAuthor(friendname, avatar, avatar)
       .setTimestamp()
       .setFooter(tag);
 
@@ -228,11 +229,12 @@ var Embeds = {
 
   },
 
-  successuserremoveticket: (tag, friendid, friendname) => {
+  successuserremoveticket: (tag, friendid, friendname, avatar) => {
 
     return new Discord.RichEmbed()
       .setColor("GREEN")
       .setDescription(`You have successfully removed <@${friendid}> from this ticket! To add <@${friendid}>, do \`-tadd @${friendname}\``)
+      .setAuthor(friendname, avatar, avatar)
       .setTimestamp()
       .setFooter(tag);
 
@@ -243,6 +245,16 @@ var Embeds = {
     return new Discord.RichEmbed()
       .setColor("DARK_RED")
       .setDescription("There are no users in this ticket that can be removed! You can add a user to this ticket by doing -tadd `@user`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  nouseraddticket: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You cannot add this user to the ticket because they are either already in it or not in this guild! You can add a user to this ticket by doing -tadd `@user`")
       .setTimestamp()
       .setFooter(tag);
 
@@ -384,7 +396,7 @@ var Embeds = {
 
     return new Discord.RichEmbed()
       .setColor("GREEN")
-      .setDescription(`You have voted to skip \`${songName}\`! (${skipCount}/${skipCap})`)
+      .setDescription(`You have successfully voted to skip \`${songName}\`! (${skipCount}/${skipCap})`)
       .setTimestamp()
       .setFooter(tag);
 
@@ -442,7 +454,7 @@ var Embeds = {
 
   viewqueuemusic: (tag, songTitle, songUrl, userName, serverQueue) => {
 
-    var returnEmbed = new Discord.RichEmbed()
+    let returnEmbed = new Discord.RichEmbed()
       .setColor("LIGHT_BLUE")
       .setTitle("Music Queue")
       .addField("Now Playing", `[${songTitle}](${songUrl})\n**Requested by:** \`${userName}\``)
@@ -451,14 +463,14 @@ var Embeds = {
 
     if (serverQueue.songs.length > 1) {
 
-      var upNexts = serverQueue.songs.shift();
+      let upNexts = serverQueue.songs;
+      upNexts.shift();
 
-      var upNextField = "";
+      let upNextField = "";
 
-      for (var song in upNexts) {
+      for (let song in upNexts) {
 
-        console.log(song);
-        upNextField += `[${upNexts[song].title}](${upNexts[song].url})\n**Requested by:** \`${upNexts[song].user.tag}\`\n`;
+        upNextField += `[${upNexts[song].title}](${upNexts[song].url})\n**Requested by:** \`${upNexts[song].user.tag}\`\n\n`;
 
       }
 
@@ -469,8 +481,130 @@ var Embeds = {
 
     return returnEmbed;
 
-  }
+  },
 
+  nopausepermmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You do not have permission to pause songs! You must be an administrator to pause songs!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  noresumepermmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You do not have permission to resume songs! You must be an administrator to resume songs!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  alreadypausedmusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("This song is already paused! You can resume the music by doing `-resume`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  alreadyresumemusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("This song is not paused! You can pause the music by doing `-pause`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successpausemusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription("You have successfully paused this song. You can resume the music by doing `-resume`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successresumemusic: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription("You have successfully paused this song. You can resume the music by doing `-pause`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+  //moderation Commands
+
+  wrongwarnusagemoderation: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You must specify a user to warn! **Usage:** `-warn @user`")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  nouserwarnmoderation: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("There are no users in this server that can be warned!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  nopermwarnmoderation: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You cannot warn this user!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  },
+
+  successwarnusermoderation: (tag, warnUserId, warnUserName, avatar) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`You have successfully warned <@${warnUserId}>!`)
+      .setTimestamp()
+      .setAuthor(warnUserName, avatar, avatar)
+      .setFooter(tag);
+
+  },
+
+  successwarnuserlaststrikemoderation: (tag, warnUserId, warnUserName, avatar) => {
+
+    return new Discord.RichEmbed()
+      .setColor("GREEN")
+      .setDescription(`You have successfully warned <@${warnUserId}>!\n**<@${warnUserId}> was on their last strike so they were banned!**`)
+      .setTimestamp()
+      .setAuthor(warnUserName, avatar, avatar)
+      .setFooter(tag);
+
+  },
+
+  nowarnpermmoderation: tag => {
+
+    return new Discord.RichEmbed()
+      .setColor("DARK_RED")
+      .setDescription("You do not have permission to warn users! You must be an administrator to warn users!")
+      .setTimestamp()
+      .setFooter(tag);
+
+  }
 
 };
 

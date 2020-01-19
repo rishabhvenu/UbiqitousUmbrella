@@ -1,9 +1,9 @@
 module.exports.run = async utils => {
 
-  var message = utils.message;
-  var embeds = utils.embeds;
+  let message = utils.message;
+  let embeds = utils.embeds;
 
-  var channelNameArray =  message.channel.name.split("-");
+  let channelNameArray =  message.channel.name.split("-");
 
   message.delete();
 
@@ -11,7 +11,7 @@ module.exports.run = async utils => {
 
   if (channelNameArray[0] != message.author.id) return message.channel.send(embeds.nodeletepermticket(message.author.tag));
 
-  var msg = await message.channel.send(embeds.confirmdeleteticket(message.author.tag));
+  let msg = await message.channel.send(embeds.confirmdeleteticket(message.author.tag));
 
   addReactions(msg);
 
@@ -29,6 +29,6 @@ module.exports.run = async utils => {
 
 module.exports.help = {
 
-  name: ["tdelete", "ticketdelete", "td"]
+  name: ["tdelete", "ticketdelete", "td", "ticketclose", "tc"]
 
 };

@@ -1,11 +1,11 @@
 module.exports.run = async utils => {
 
-  var message = utils.message;
-  var bot = utils.bot;
-  var embeds = utils.embeds;
-  var serverQueue = utils.serverQueue;
+  let message = utils.message;
+  let bot = utils.bot;
+  let embeds = utils.embeds;
+  let serverQueue = utils.serverQueue;
 
-  var voiceChannel = message.member.voiceChannel;
+  let voiceChannel = message.member.voiceChannel;
 
   message.delete();
 

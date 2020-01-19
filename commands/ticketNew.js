@@ -1,15 +1,15 @@
 module.exports.run = async utils => {
 
-  var message = utils.message;
-  var embeds = utils.embeds;
+  let message = utils.message;
+  let embeds = utils.embeds;
 
   message.delete();
 
-  var channelExists = message.guild.channels.find(channel => channel.name === `${message.author.id}-ticket`);
+  let channelExists = message.guild.channels.find(channel => channel.name === `${message.author.id}-ticket`);
 
   if (channelExists) return message.channel.send(embeds.ticketexists(message.author.tag, channelExists.id));
 
-  var ticketCat = message.guild.channels.find(channel => channel.name.toLowerCase() === "tickets" && channel.type == "category");
+  let ticketCat = message.guild.channels.find(channel => channel.name.toLowerCase() === "tickets" && channel.type == "category");
 
   if (ticketCat == null) {
 
@@ -23,7 +23,7 @@ module.exports.run = async utils => {
 
   }
 
-  var channel = await message.guild.createChannel(`${message.author.id}-ticket`, {
+  let channel = await message.guild.createChannel(`${message.author.id}-ticket`, {
 
     type: "text",
     permissionOverwrites: [{

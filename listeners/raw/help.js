@@ -1,24 +1,24 @@
 async function help(utils) {
 
-  var msg = utils.parameter;
+  let msg = utils.parameter;
 
   if (msg.t != "MESSAGE_REACTION_ADD") return;
 
-  var embeds = utils.embeds;
+  let embeds = utils.embeds;
 
-  var bot = utils.bot;
+  let bot = utils.bot;
 
-  var helpChannel = bot.channels.get(msg.d.channel_id);
+  let helpChannel = bot.channels.get(msg.d.channel_id);
 
-  var message = await helpChannel.fetchMessage(msg.d.message_id);
+  let message = await helpChannel.fetchMessage(msg.d.message_id);
 
   if (message.embeds[0].title == "Menu Option" || message.embeds[0].title == "Fun Commands" || message.embeds[0].title == "Main Commands" ||
        message.embeds[0].title == "Ticket Commands" || message.embeds[0].title == "Moderator Commands") {
 
     if (msg.d.user_id == message.embeds[0].footer.text) {
 
-      var user = await bot.fetchUser(message.embeds[0].footer.text);
-      var member = await bot.guilds.get(message.guild.id).fetchMember(user);
+      let user = await bot.fetchUser(message.embeds[0].footer.text);
+      let member = await bot.guilds.get(message.guild.id).fetchMember(user);
 
       if (msg.d.emoji.name == "⬅️") {
 

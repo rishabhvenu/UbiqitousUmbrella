@@ -1,11 +1,10 @@
 module.exports.run = async utils => {
 
-  var message = utils.message;
-  var embeds = utils.embeds;
-  var args = utils.args;
-  var bot = utils.bot;
+  let message = utils.message;
+  let embeds = utils.embeds;
+  let args = utils.args;
 
-  var channelNameArray =  message.channel.name.split("-");
+  let channelNameArray =  message.channel.name.split("-");
 
   message.delete();
 
@@ -15,19 +14,25 @@ module.exports.run = async utils => {
 
   if (args.length < 1) return message.channel.send(embeds.wrongaddusageticket(message.author.tag));
 
-  var addTUser;
+  let addTUser;
 
-  if (message.mentions.members.first()) addTUser = message.mentions.members.first(); else {
+  if (message.mentions.members.first()) {
 
-    var users = [];
+    addTUser = message.mentions.members.first().user;
 
-    bot.users.tap(user => {
+    if (!message.guild.members.has(addTUser.id) || message.mentions.members.first().hasPermission("MANAGE_MESSAGES")) return message.channel.send(embeds.nouseraddticket(message.author.tag));
 
-      users.push(user.username);
+  } else {
+
+    let users = [];
+
+    message.guild.members.filter(member => !member.hasPermission("MANAGE_MESSAGES") && !message.channel.permissionsFor(member).has("VIEW_CHANNEL")).forEach(member => {
+
+      users.push(member.user.tag);
 
     });
 
-    addTUser = bot.users.find(u => u.username === utils.StringSimilarity.findBestMatch(args[0], users).bestMatch.target);
+    addTUser = message.guild.members.find(u => u.user.tag === utils.StringSimilarity.findBestMatch(args[0], users).bestMatch.target).user;
 
   }
 
@@ -39,7 +44,7 @@ module.exports.run = async utils => {
 
   });
 
-  message.channel.send(embeds.successuseraddticket(message.author.tag, addTUser.id, addTUser.tag));
+  message.channel.send(embeds.successuseraddticket(message.author.tag, addTUser.id, addTUser.tag, addTUser.avatarURL));
 
 };
 

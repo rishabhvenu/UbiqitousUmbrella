@@ -3,11 +3,11 @@ const emojiOArray = ["⬅️", "🎉", "📜", "🎫", "❌"];
 
 module.exports.run = async utils => {
 
-  var embeds = utils.embeds;
-  var message = utils.message;
+  let embeds = utils.embeds;
+  let message = utils.message;
 
   message.delete();
-  
+
   if (!message.member.hasPermission("MANAGE_MESSAGES")) return message.channel.send(embeds.optOutPermMenu(message.author.id))
     .then(msg => reactOptions(msg));
 
@@ -17,7 +17,7 @@ module.exports.run = async utils => {
 
     if (message.member.hasPermission("MANAGE_MESSAGES")) {
 
-      for (var numb = 0; numb < emojiArray.length; numb++) {
+      for (let numb = 0; numb < emojiArray.length; numb++) {
 
         await msg.react(emojiArray[numb]);
 
@@ -25,7 +25,7 @@ module.exports.run = async utils => {
 
     } else {
 
-      for (numb = 0; numb < emojiOArray.length; numb++) {
+      for (let numb = 0; numb < emojiOArray.length; numb++) {
 
         await msg.react(emojiOArray[numb]);
 
