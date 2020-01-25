@@ -1,5 +1,7 @@
 module.exports.run = async utils => {
 
+  if (!utils.MySQL.cmdsEnabled.ticket) return;
+  
   let message = utils.message;
   let embeds = utils.embeds;
 

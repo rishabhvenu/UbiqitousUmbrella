@@ -1,5 +1,7 @@
 module.exports.run = async utils => {
 
+  if (!utils.MySQL.cmdsEnabled.moderation) return;
+  
   let message = utils.message;
   let args = utils.args;
   let embeds = utils.embeds;
@@ -38,7 +40,7 @@ module.exports.run = async utils => {
   let insertWarnFirstTimeDataSQL = "INSERT INTO Warns (serverID, users) VALUES (?, ?)";
   let getWarnUserDataSQL = "SELECT users FROM Warns WHERE serverID = ?";
   let setWarnUserDataSQL = "UPDATE Warns SET users = ? WHERE serverID = ?";
-  let deleteWarnServerDataSQL = "DELETE FROM Wa5rns WHERE serverID = ?";
+  let deleteWarnServerDataSQL = "DELETE FROM Warns WHERE serverID = ?";
 
   let lastStrike = false;
 

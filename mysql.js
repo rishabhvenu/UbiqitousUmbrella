@@ -11,7 +11,18 @@ let MySQL = {
     password: config.mysql.password,
     database: config.mysql.database
 
-  })
+  }),
+
+  cmdsEnabled: async guildid => {
+
+    let querySQL = "SELECT enableSettings FROM Settings WHERE serverID = ?";
+
+    let enableSettingsData = await MySQL.connection.promise().execute(querySQL, [guildid]);
+
+    return enableSettingsData[0][0].enableSettings;
+
+  }
+
 
 };
 

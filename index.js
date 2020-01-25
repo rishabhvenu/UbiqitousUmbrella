@@ -4,7 +4,6 @@ const StringSimilarity = require("string-similarity");
 const Ytdl = require("ytdl-core");
 const Ytsearch = require("yt-search");
 const Spotify = require("spotify-web");
-const MySQL = require("./mysql.js");
 
 const queue = new Map();
 
@@ -13,6 +12,8 @@ const bot = new Discord.Client();
 const tokenConfig = require("./botConfig.js");
 const embeds = require("./embeds.js");
 const Utils = require("./utils.js");
+const MySQL = require("./mysql.js");
+const WebPanel = require("./WebPanel/webpanel.js");
 
 bot.commands = new Discord.Collection();
 
@@ -159,3 +160,5 @@ bot.on("error", err => {
 });
 
 bot.login(tokenConfig.token);
+
+WebPanel(bot);

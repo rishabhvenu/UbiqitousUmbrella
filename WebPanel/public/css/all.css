@@ -1,0 +1,96 @@
+#discord-login {
+  font-size: 12px;
+  padding: 9px 20px;
+  border-width: 2px;
+  background-color: #2f3136;
+  border-radius: 25px;
+  border-color: lightgrey;
+}
+
+#discord-login:hover {
+
+  border-color: #ffffff;
+
+}
+
+.navbar-dc-link {
+
+  color: lightgrey;
+
+}
+
+#discord-login:focus {
+
+  outline: none;
+
+}
+
+.iconpic {
+  border-radius: 50%;
+}
+
+body {
+
+  background-color: #2f3136;
+
+}
+
+.navbar-brand {
+
+  color: #ffffff;
+
+}
+
+.center {
+
+  text-align: center;
+
+}
+
+.makewhite {
+
+  color: #ffffff;
+
+}
+
+.makewhitehover:hover {
+
+  color: #ffffff;
+
+}
+
+.dropdown-item {
+  background-color: #2f3136;
+}
+
+.dropdown-item:hover {
+  background-color: #3b3d44;
+}
+
+.dropdown-menu {
+  background-color: #2f3136;
+}
+
+.makered {
+  color: #a72a39
+}
+
+.makelightgrey {
+  color: lightgrey;
+}
+
+.navbargreyopt:hover {
+  color: lightgrey;
+}
+
+.navbar {
+  background-color: #25272b;
+}
+
+.dropdown {
+  transform: translateY(-10px);
+}
+
+#logoutnavbaropt {
+  color: #a72a39;
+}

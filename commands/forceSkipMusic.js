@@ -1,11 +1,13 @@
 module.exports.run = async utils => {
 
-  let message = utils.message;
-  let bot = utils.bot;
-  let embeds = utils.embeds;
-  let serverQueue = utils.serverQueue;
+  if (!utils.MySQL.cmdsEnabled.music) return;
 
-  let voiceChannel = message.member.voiceChannel;
+  const message = utils.message;
+  const bot = utils.bot;
+  const embeds = utils.embeds;
+  const serverQueue = utils.serverQueue;
+
+  const voiceChannel = message.member.voiceChannel;
 
   message.delete();
 
