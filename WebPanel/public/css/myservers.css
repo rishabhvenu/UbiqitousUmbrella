@@ -4,13 +4,17 @@
 }
 
 .gtdash {
-
-  position: absolute;
-  left: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
   font-size: 10px;
 }
 
+.gtdashtext {
+  display: inline;
+}
+
 .gtdashbtn {
-  position: absolute;
-  right: 400px;
+  display: inline;
 }

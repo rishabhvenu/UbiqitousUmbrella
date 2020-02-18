@@ -21,7 +21,7 @@ let Embeds = {
 
   optOutPermMenu: id => {
 
-    return this.optionMenu(id).setDescription("⬅️ - Return back to this menu. \n" +
+    return Embeds.optionMenu(id).setDescription("⬅️ - Return back to this menu. \n" +
                                 "🎉 - **Fun Commands** \n" +
                                 "📜 - **Main Commands** \n" +
                                 "🎫 - **Ticket Commands** \n" +

@@ -13,12 +13,6 @@
 
 }
 
-.navbar-dc-link {
-
-  color: lightgrey;
-
-}
-
 #discord-login:focus {
 
   outline: none;
@@ -31,7 +25,7 @@
 
 body {
 
-  background-color: #2f3136;
+  background-color: #34383C;
 
 }
 
@@ -42,24 +36,15 @@ body {
 }
 
 .center {
-
   text-align: center;
-
 }
 
-.makewhite {
-
+.makewhite, .makewhitehover:hover {
   color: #ffffff;
-
+  text-decoration: none;
 }
 
-.makewhitehover:hover {
-
-  color: #ffffff;
-
-}
-
-.dropdown-item {
+.dropdown-item, .dropdown-menu {
   background-color: #2f3136;
 }
 
@@ -67,19 +52,7 @@ body {
   background-color: #3b3d44;
 }
 
-.dropdown-menu {
-  background-color: #2f3136;
-}
-
-.makered {
-  color: #a72a39
-}
-
-.makelightgrey {
-  color: lightgrey;
-}
-
-.navbargreyopt:hover {
+.makelightgrey, .navbargreyopt:hover {
   color: lightgrey;
 }
 
@@ -87,10 +60,80 @@ body {
   background-color: #25272b;
 }
 
-.dropdown {
-  transform: translateY(-10px);
-}
-
 #logoutnavbaropt {
   color: #a72a39;
+}
+
+.noicontext {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border-style:solid;
+  border-width: 0.5px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-item {
+
+  font-size: 10px;
+
+}
+
+.dashnavlink {
+  font-size: 20px;
+}
+
+#menubar {
+  background-color: #17001a;
+  z-index: 2000;
+}
+
+#dashboardmenubar {
+  background-color: #2b2f33;
+}
+
+@media only screen and (min-width: 992px) {
+  #dashboardmenubar {
+    top: 0px !important;
+  }
+}
+
+@media only screen and (max-width: 354px) {
+  #discord-login {
+    background-color: #17001a;
+  }
+
+  .loginspot {
+    border: none;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  #menubarheader {
+    font-size: 17px;
+  }
+}
+
+@media only screen and (max-width: 324px) {
+  #menubarheader {
+    display: inline-block;
+    transform: translateX(-40px);
+    font-size: 11px;
+    visibility: hidden;
+  }
+
+  #menubarheader:after {
+    visibility: visible;
+    content: "UU";
+  }
+
+  #collapsebutton {
+    font-size: 9px;
+  }
+
+  .loginspot {
+    font-size: 6px;
+  }
 }

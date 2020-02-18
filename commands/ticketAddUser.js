@@ -1,7 +1,8 @@
 module.exports.run = async utils => {
 
-  if (!utils.MySQL.cmdsEnabled.ticket) return;
-  
+  let enabled = await utils.MySQL.cmdsEnabled(utils.message.guild.id);
+  if (!enabled.ticket) return;
+
   let message = utils.message;
   let embeds = utils.embeds;
   let args = utils.args;

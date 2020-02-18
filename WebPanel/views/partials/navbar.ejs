@@ -1,34 +1,35 @@
-<nav class="navbar navbar-expand-lg">
-   <a class="navbar-brand makewhite makewhitehover" href="/"><b>UbiqitousUmbrella</b></a>
-   <div class="collapse navbar-collapse"">
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark" id="menubar" role="navigation">
+   <button class="navbar-toggler" data-toggle="collapse" data-target="#collapse_target" id="collapsebutton"><i class="navbar-toggler-icon"></i></button>
+   <a class="navbar-brand makewhite makewhitehover" href="/"><b id="menubarheader">UbiqitousUmbrella</b></a>
+   <div class="collapse navbar-collapse" id="collapse_target">
      <ul class="navbar-nav mr-auto">
-       <li class="nav-item active">
-         <a class="nav-link navbar-dc-link makewhitehover" href="#">Moderation</a>
+       <li class="nav-item">
+         <a class="nav-link makelightgrey makewhitehover" href="#">Moderation</a>
        </li>
        <li class="nav-item">
-         <a class="nav-link navbar-dc-link makewhitehover" href="#">Leveling</a>
+         <a class="nav-link makelightgrey makewhitehover" href="#">Leveling</a>
        </li>
        <li class="nav-item">
-         <a class="nav-link navbar-dc-link makewhitehover" href="#">Ticket System</a>
+         <a class="nav-link makelightgrey makewhitehover" href="#">Ticket System</a>
        </li>
        <li class="nav-item">
-         <a class="nav-link navbar-dc-link makewhitehover" href="#">Music</a>
+         <a class="nav-link makelightgrey makewhitehover" href="#">Music</a>
        </li>
      </ul>
-     <% if (loggedin) { %>
-       <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="makewhite">
-              <img class="iconpic" src="https://cdn.discordapp.com/avatars/<%=userInfo.id%>/<%=userInfo.avatar%>.png" width="26" height="26" /> <%=userInfo.username%>
-            </span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item makelightgrey navbargreyopt" href="/myservers">My Servers</a>
-            <a class="dropdown-item makered" id="logoutnavbaropt" href="/logout">Logout</a>
-          </div>
-        </li>
-     <% } else { %>
-       <button onclick="window.location.href = '/api/discord/login'" class="makewhite makewhitehover" id="discord-login">Login</button>
-     <% } %>
    </div>
+   <% if (loggedin) { %>
+     <li class="nav-item dropdown loginspot" style="list-style-type: none;">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" style="cursor: pointer;">
+          <span class="makewhite">
+            <img class="iconpic" src="https://cdn.discordapp.com/avatars/<%= userInfo.id %>/<%= userInfo.avatar %>.png" width="26" height="26" /> <%= userInfo.username %>
+          </span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg-right" aria-labelledby="dropdown_target">
+          <a class="dropdown-item makelightgrey navbargreyopt" href="/dashboard">My Servers</a>
+          <a class="dropdown-item" id="logoutnavbaropt" href="/logout">Logout</a>
+        </div>
+      </li>
+   <% } else { %>
+     <button onclick="window.location.href = '/api/discord/login'" class="makewhite makewhitehover loginspot" id="discord-login">Login</button>
+   <% } %>
  </nav>

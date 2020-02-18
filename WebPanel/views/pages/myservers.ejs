@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Server Page</title>
+    <title>Servers</title>
     <%- include ../partials/imports %>
     <link rel="stylesheet" href="/static/css/myservers.css" />
+    <script src="/static/js/myservers.js"></script>
   </head>
   <body>
     <%- include ../partials/navbar %>
@@ -12,62 +13,63 @@
     <% guilds.forEach(guildobj => { %>
       <h5 class="makewhite">
         <div class="gtdash">
-          <%
-          let imgurl;
-          if (guildobj.guild.icon) {
-            %>
-            <img class="iconpic" src="https://cdn.discordapp.com/icons/<%= guildobj.guild.id %>/<%= guildobj.guild.icon %>.png" width="26" height="26"/>
-          <%
-          } else {
-            let spchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
-            let spcharinstr = [];
-            let guildName = guildobj.guild.name.split("");
-            let initials = "";
-            for (let i = 0; i < guildName.length; i++) {
-              if (spchar.indexOf(guildName[i].toUpperCase()) === -1) {
-                let pos = 0;
-                let starpos = -1;
-                let indexes = [];
-                let index = 0;
-                while (pos != -1) {
-                  pos = guildName.indexOf(guildName[i], starpos + 1);
-                  indexes.push(pos);
-                  starpos = pos;
-                }
-                for (let i2 = 0; i2 < indexes.length; i2++) {
-                  if (spcharinstr.includes(indexes[i2])) {
-                    continue;
-                  } else {
-                    index = indexes[i2];
-                    break;
+          <div class="gtdashtext">
+            <%
+            if (guildobj.guild.icon) {
+              %>
+              <img class="iconpic" src="https://cdn.discordapp.com/icons/<%= guildobj.guild.id %>/<%= guildobj.guild.icon %>.png" width="26" height="26"/>
+            <%
+            } else {
+              let spchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
+              let spcharinstr = [];
+              let guildName = guildobj.guild.name.split("");
+              let initials = "";
+              for (let i = 0; i < guildName.length; i++) {
+                if (spchar.indexOf(guildName[i].toUpperCase()) === -1) {
+                  let pos = 0;
+                  let starpos = -1;
+                  let indexes = [];
+                  let index = 0;
+                  while (pos != -1) {
+                    pos = guildName.indexOf(guildName[i], starpos + 1);
+                    indexes.push(pos);
+                    starpos = pos;
                   }
+                  for (let i2 = 0; i2 < indexes.length; i2++) {
+                    if (spcharinstr.includes(indexes[i2])) {
+                      continue;
+                    } else {
+                      index = indexes[i2];
+                      break;
+                    }
+                  }
+                  spcharinstr.push(index);
                 }
-                spcharinstr.push(index);
               }
-            }
-            for (let i = 0; i < spcharinstr.length; i++) {
-              guildName.splice(spcharinstr[i]+i, 0, " ");
-            }
-            let newGuildName = guildName.join("").split(" ");
-            for (let i = 0; i < newGuildName.length; i++) {
-              if (newGuildName[i][0]) {
-                initials += newGuildName[i][0];
+              for (let i = 0; i < spcharinstr.length; i++) {
+                guildName.splice(spcharinstr[i]+i, 0, " ");
               }
-            }
-            initials = initials.substring(0, 3);
-            %>
-              <%= initials %>
-          <% } %>
-          <%= guildobj.guild.name %>
+              let newGuildName = guildName.join("").split(" ");
+              for (let i = 0; i < newGuildName.length; i++) {
+                if (newGuildName[i][0]) {
+                  initials += newGuildName[i][0];
+                }
+              }
+              initials = initials.substring(0, 3);
+              %>
+                <span class="noicontext"><%= initials %></span>
+            <% } %>
+            <%= guildobj.guild.name %>
+          </div>
+          <div class="gtdashbtn">
+            <% if (guildobj.setup) { %>
+              <button onclick="openwindow('<%=guildobj.url%>', '<%=guildobj.guild.id%>')" class="btn btn-sm btn-outline-secondary">Setup</button><br />
+            <% } else { %>
+              <a class="btn btn-sm btn-success" role="button" href="/dashboard/<%=guildobj.guild.id%>">Edit Server</a>
+            <% } %>
+          </div>
         </div>
-        <div class="gtdashbtn">
-          <% if (guildobj.setup) { %>
-            <button class="btn btn-sm btn-outline-secondary">Setup</button><br />
-          <% } else { %>
-            <button class="btn btn-sm btn-success">Edit Server</button>
-          <% } %>
-        </div>
-      </h5><br />
+      </h5><br /><br />
     <% }); %>
   </body>
 </html>

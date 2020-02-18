@@ -1,12 +1,12 @@
 module.exports.run = async utils => {
 
-  if (!utils.MySQL.cmdsEnabled.music) return;
+  let enabled = await utils.MySQL.cmdsEnabled(utils.message.guild.id);
+  if (!enabled.music) return;
 
   let message = utils.message;
   let bot = utils.bot;
   let embeds = utils.embeds;
   let args = utils.args;
-  let queue = utils.queue;
   let serverQueue = utils.serverQueue;
 
   let Ytdl = utils.Ytdl;
@@ -28,11 +28,8 @@ module.exports.run = async utils => {
 
   let songId;
 
-  if (Ytdl.validateURL(songString)) {
-
-    songId = songString;
-
-  } else {
+  if (Ytdl.validateURL(songString)) songId = songString;
+  else {
 
     let result = await utils.toPromise(this, Ytsearch, songString);
 
@@ -106,17 +103,13 @@ module.exports.run = async utils => {
 
   async function playSong(songData) {
 
-    let serverQueue = queue.get(message.guild.id);
+    let serverQueue = bot.queue.get(message.guild.id);
 
     if (songData) {
 
       message.channel.send(embeds.nowplayingmusic(songData.user.tag, songData.title));
 
-      serverQueue.dispatcher = serverQueue.connection.playStream(Ytdl(songData.url, {
-
-        filter: "audioonly"
-
-      })).once("end", () => {
+      serverQueue.dispatcher = serverQueue.connection.playStream(Ytdl(songData.url, {filter: "audioonly"})).once("end", () => {
 
         serverQueue.songs.shift();
         serverQueue.skipCount = 0;
@@ -143,7 +136,7 @@ module.exports.run = async utils => {
 
       serverQueue.voiceChannel.leave();
 
-      queue.delete(message.guild.id);
+      bot.queue.delete(message.guild.id);
 
     }
 

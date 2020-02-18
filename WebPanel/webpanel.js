@@ -1,22 +1,29 @@
 const Express = require("express");
 const ExpressApp = Express();
 const ExpressSession = require("express-session");
+const HttpServer = require("http").createServer(ExpressApp);
 const NodeFetch = require("node-fetch");
+const MySQL = require("./../mysql.js");
+const SocketIO = require("socket.io")(HttpServer);
 const Path = require("path");
 
-const Oauth2ExpressRouter = require("./discordapirouter.js")(Express, NodeFetch);
+const fetchHeaders = req => {
+  return {
+    headers: {
+      Authorization: `Bearer ${req.session.access_token}`
+    }
+  };
+};
+
+const sockets = require("./socketiosockets.js");
+const botConfig = require("./../botConfig.js");
 
 function webpanel(bot) {
 
-  const port = 3000;
+  const port = 80;
 
-  const fetchHeaders = req => {
-    return {
-      headers: {
-        Authorization: `Bearer ${req.session.access_token}`
-      }
-    };
-  };
+  const Oauth2ExpressRouter = require("./routers/discordapirouter.js")(Express, NodeFetch, botConfig, fetchHeaders);
+  const DashboardExpressRouter  = require("./routers/dashboardrouter.js")(Express, NodeFetch, MySQL, bot, botConfig, fetchHeaders);
 
   ExpressApp.set("view engine", "ejs");
   ExpressApp.set("views", Path.join(__dirname, "views"));
@@ -24,70 +31,15 @@ function webpanel(bot) {
   ExpressApp.use(ExpressSession({secret: "supahsecretocodeo", cookie: {maxAge: 21600000}})); //max age is 6 hours
   ExpressApp.use("/static", Express.static(Path.join(__dirname, "public")));
   ExpressApp.use("/api/discord", Oauth2ExpressRouter);
+  ExpressApp.use("/dashboard", DashboardExpressRouter);
 
-  ExpressApp.get("/", (req, res) => {
-
-    if (req.session.access_token) res.redirect("/dashboard");
-    else {
-
-      if (req.query.token) {
-
-        req.session.access_token = req.query.token;
-        res.redirect("/dashboard");
-
-      } else res.render("pages/home", {loggedin: false});
-
-    }
-
-  });
-  ExpressApp.get("/dashboard", async (req, res) => {
+  ExpressApp.get("/", async (req, res) => {
 
     if (req.session.access_token) {
 
-      if (req.session.userInfo) {
+      res.render("pages/home", {userInfo: req.session.userInfo, loggedin: true});
 
-        res.render("pages/home", {userInfo: req.session.userInfo, loggedin: true});
-
-      } else {
-
-        let userInfo = await NodeFetch("https://discordapp.com/api/v6/users/@me", fetchHeaders(req));
-
-        userInfo = await userInfo.json();
-
-        req.session.userInfo = userInfo;
-
-        res.render("pages/home", {userInfo: userInfo, loggedin: true});
-
-      }
-
-    }
-    else res.redirect("/api/discord/login");
-
-  });
-  ExpressApp.get("/myservers", async (req, res) => {
-
-    if (req.session.access_token) {
-
-      let userInfo = await NodeFetch("https://discordapp.com/api/v6/users/@me/guilds", fetchHeaders(req));
-
-      userInfo = await userInfo.json();
-
-      let addableGuilds = userInfo.filter(guild => guild.owner || (guild.permissions & 0x8));
-
-      let editableGuilds = [];
-      let setupGuilds = [];
-
-      addableGuilds.forEach(guild => {
-        if (bot.guilds.has(guild.id)) editableGuilds.push({setup: false, guild: guild});
-        else setupGuilds.push({setup: true, guild: guild});
-      });
-
-      addableGuilds = editableGuilds.concat(setupGuilds);
-
-      res.render("pages/myservers", {userInfo: req.session.userInfo, loggedin: true, guilds: addableGuilds});
-
-
-    } else res.redirect("/");
+    } else res.render("pages/home", {loggedin: false});
 
   });
   ExpressApp.get("/logout", (req, res) => {
@@ -96,7 +48,9 @@ function webpanel(bot) {
   });
   ExpressApp.get("*", (req, res) => res.render("pages/404"));
 
-  ExpressApp.listen(port, () => console.log("Web Panel is up!"));
+  sockets(SocketIO, MySQL, bot);
+
+  HttpServer.listen(port, () => console.log("Web Panel is up!"));
 
 }
 

@@ -1,6 +1,7 @@
 module.exports.run = async utils => {
 
-  if (!utils.MySQL.cmdsEnabled.music) return;
+  let enabled = await utils.MySQL.cmdsEnabled(utils.message.guild.id);
+  if (!enabled.music) return;
 
   let message = utils.message;
   let bot = utils.bot;

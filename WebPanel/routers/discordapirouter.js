@@ -1,16 +1,17 @@
 const Btoa = require("btoa");
 
-function expressrouter(Express, NodeFetch) {
+function expressrouter(Express, NodeFetch, botConfig, fetchHeaders) {
 
   const ExpressRouter = Express.Router();
 
-  const botConfig = require("./../botConfig.js");
-
   const CLIENT_ID = botConfig.oauth2.CLIENT_ID;
   const CLIENT_SECRET = botConfig.oauth2.CLIENT_SECRET;
-  const redirect = "http%3A%2F%2Flocalhost%3A3000%2Fapi%2Fdiscord%2Fcallback";
+
+  let redirect = "https%3A%2F%2Fubiqitousumbrella.ragearcade.org%2Fapi%2Fdiscord%2Fcallback";
 
   ExpressRouter.get("/login", (req, res) => {
+
+    if (req.query.redirect) req.session.tempredirect = req.query.redirect;
 
     res.redirect(`https://discordapp.com/api/oauth2/authorize?client_id=${CLIENT_ID}&scope=identify%20guilds&response_type=code&redirect_uri=${redirect}`);
 
@@ -32,9 +33,29 @@ function expressrouter(Express, NodeFetch) {
 
     const json = await response.json();
 
-    res.redirect(`/?token=${json.access_token}`);
+    req.session.access_token = json.access_token;
+
+    if (!req.session.userInfo) {
+
+      let userInfo = await NodeFetch("https://discordapp.com/api/v6/users/@me", fetchHeaders(req));
+
+      userInfo = await userInfo.json();
+
+      req.session.userInfo = userInfo;
+
+    }
+
+    if (req.session.tempredirect) {
+
+      res.redirect(decodeURIComponent(req.session.tempredirect));
+      delete req.session.tempredirect;
+
+    }
+    else res.redirect("/dashboard");
 
   });
+
+  ExpressRouter.get("/close", (req, res) => res.send("<script>window.close();</script>"));
 
   return ExpressRouter;
 

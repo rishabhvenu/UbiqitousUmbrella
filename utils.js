@@ -13,7 +13,7 @@ let Utils = {
 
     Utils.utils.serverQueue = servQueue;
 
-    Utils.utils.queue.set(Utils.message.guild.id, servQueue);
+    Utils.utils.bot.queue.set(Utils.message.guild.id, servQueue);
 
   },
 
@@ -23,27 +23,13 @@ let Utils = {
 
       args.push((err, data) => {
 
-        if (err) {
-
-          reject(err);
-
-        } else {
-
-          resolve(data);
-
-        }
+        if (err) reject(err);
+        else resolve(data);
 
       });
 
-      if (context) {
-
-        callback.call(context, ...args);
-
-      } else {
-
-        callback(...args);
-
-      }
+      if (context) callback.call(context, ...args);
+      else callback(...args);
 
     });
 

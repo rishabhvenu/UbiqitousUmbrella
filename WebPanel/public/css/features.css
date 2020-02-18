@@ -1,0 +1,111 @@
+.feature {
+  margin-top: 50px;
+  padding: 23px 28px 23px 19px;
+  display: inline-flex;
+  background-color: #3e4148;
+  position: relative;
+}
+
+.featureHeader {
+  font: 700 23px "Poppins";
+  line-height: 0.5;
+}
+
+.featureText {
+  font: 14px "Comic Sans MS";
+  color: #868b8b;
+  margin-top: 13px;
+}
+
+.featureImgSide {
+  width: 58px;
+}
+
+.featureImg {
+  margin: -7px 0px 0px -7px;
+  font-size: 35px;
+}
+
+.featureTextSide {
+  flex: 1;
+}
+
+.featureBothText {
+  flex-direction: column;
+}
+
+.featureFooter {
+  cursor: pointer;
+  text-align: center;
+  background-color: #432047;
+  position: absolute;
+  bottom: -15%;
+  left: 0;
+  width: 100%;
+}
+
+.featureFooter:hover {
+  background-color: #55295a;
+}
+
+.featuresection {
+  display: flex;
+  justify-content: center;
+}
+
+.featurecontent {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 35px;
+}
+
+.switch {
+  position: relative;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .3s;
+  border-radius: 38px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #cd00e7;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #cd00e7;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}

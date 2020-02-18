@@ -1,0 +1,14 @@
+#prefixinput {
+  width: 50px;
+  height: 20px;
+  border: 1px solid #888;
+  background-color: #2B2F33;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+#prefixinput:focus {
+  outline: none !important;
+  border: 1px solid lightgrey;
+  box-shadow: 0 0 10px #719ECE;
+}

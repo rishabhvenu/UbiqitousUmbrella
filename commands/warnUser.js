@@ -1,7 +1,8 @@
 module.exports.run = async utils => {
 
-  if (!utils.MySQL.cmdsEnabled.moderation) return;
-  
+  let enabled = await utils.MySQL.cmdsEnabled(utils.message.guild.id);
+  if (!enabled.moderation) return;
+
   let message = utils.message;
   let args = utils.args;
   let embeds = utils.embeds;

@@ -1,6 +1,7 @@
 module.exports.run = async utils => {
 
-  if (!utils.MySQL.cmdsEnabled.ticket) return;
+  let enabled = await utils.MySQL.cmdsEnabled(utils.message.guild.id);
+  if (!enabled.ticket) return;
 
   let message = utils.message;
   let embeds = utils.embeds;
@@ -21,7 +22,7 @@ module.exports.run = async utils => {
 
     });
 
-    ticketCat = message.guildchannels.find(category => category.name === "TICKETS" && category.type == "category");
+    ticketCat = message.guild.channels.find(category => category.name === "TICKETS" && category.type == "category");
 
   }
 
