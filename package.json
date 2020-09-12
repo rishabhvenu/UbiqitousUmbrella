@@ -18,7 +18,7 @@
     "libsodium-wrappers": "^0.7.6",
     "mysql2": "^2.1.0",
     "node-ejs": "^1.2.3",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "npm": "^6.13.4",
     "opusscript": "0.0.7",
     "socket.io": "^2.3.0",
